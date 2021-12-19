@@ -11,21 +11,29 @@ email:{
     type:String,
     required:true
 },
-phone:{
+fathername:{
+    type:String,
+    required:true
+},
+cnic:{
+    type:String,
+    required:true
+},
+nooffamilymem:{
     type:Number,
     required:true
 },
-work:{
-    type:String,
+phoneNumber:{
+    type:Number,
+    required:true
+},
+dob:{
+    type:Date,
     required:true
 },
 password:{
     type:String,
     required:true
-},
-cpassword:{
-type:String,
-required:true
 },
 date:{
 type:Date,
@@ -41,7 +49,7 @@ messages:[
             type:String,
             required:true
         },
-        phone:{
+        phoneNumber:{
             type:Number,
             required:true
         },
@@ -67,7 +75,6 @@ userSchema.pre('save',async function (next){
     console.log('hi this is from inside');
     if(this.isModified('password')){
         this.password=await bcrypt.hash(this.password,12);
-        this.cpassword=await bcrypt.hash(this.cpassword,12)
     }
     next();
 })
@@ -90,10 +97,10 @@ userSchema.methods.generateAuthToken=async function(){
     }
 }
 
-userSchema.methods.addMessage= async function(name, email, phone, message){
+userSchema.methods.addMessage= async function(name, email, phoneNumber, message){
 
     try {
-        this.messages=this.messages.concat({name, email, phone, message})
+        this.messages=this.messages.concat({name, email, phoneNumber, message})
         await this.save();
         return this.messages;
 
